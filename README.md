@@ -2,7 +2,7 @@
 <h2>👨‍💻 Data Projects :</h2>
 
 - <b>Data Projects ()</b>
-  - [Azure Databricks](https://github.com/joshmadakor1/Algorithms-Practice)
+  - [Azure Databricks](https://github.com/florianmattana/DataBricksv1)
 
 <h2> 💬 Certifications :</h2>
   <ul>
