@@ -1,4 +1,4 @@
-<h1>Hi, I'm Florian! </h1><br/>A France-based Product Manager specializing in Data and SaaS, with a large experience in product discovery and solution deployment.
+<h1>Hi, I'm Florian! </h1><br/>A France-based Technical Projet Manager and Product owner specializing in Data and SaaS, with a large experience in product discovery and solution deployment.
 <h2>👨‍💻 Data Projects :</h2>
 
 - <b>Data Projects ()</b>
