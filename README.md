@@ -1,16 +1,15 @@
-## Hi there 👋
+# Hi, I'm Florian! 👋  
+I'm an [AI Engineer](https://github.com/florianmattana/) passionate about building real-world AI models and exploring advanced computing.  
 
-<!--
-**florianmattana/florianmattana** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Free Course Support
+I provide guidance in **Python, C/C++, CUDA, Maths**, and more to help capture **Real-World Based Models**.  
 
-Here are some ideas to get you started:
+## Projects
+- **World Model Project** – exploring AI that understands and predicts the world dynamics.  
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## 🤳 Connect with me
+[<img align="left" alt="Substack" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/substack.svg" />][substack]
+[<img align="left" alt="LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
+
+[substack]: https://substack.com/@florianmattana  
+[linkedin]: https://www.linkedin.com/in/florian-elio-mattana/
