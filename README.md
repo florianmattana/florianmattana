@@ -1,11 +1,11 @@
 # Hi, I'm Florian! 👋  
-I'm an [AI Engineer](https://github.com/florianmattana/) passionate about building real-world AI models and exploring advanced computing.  
+I'm an [Software Engineer](https://github.com/florianmattana/) passionate about GPU Programming.  
 
 ## Free Course Support
-I provide guidance in **Python, C/C++, CUDA, Maths**, and more to help capture **Real-World Based Models**.  
+I provide guidance in **Python, C/C++, CUDA, Maths**, and more to help capture **GPU Programming Concept**.  
 
 ## Projects
-- **World Model Project** – exploring AI that understands and predicts the world dynamics.  
+- **Several Pedagogic Kernel** – exploring CUDA.  
 
 ## 🤳 Connect with me
 [<img align="left" alt="Substack" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/substack.svg" />][substack]
