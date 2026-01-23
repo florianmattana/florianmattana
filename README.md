@@ -8,7 +8,6 @@ I provide guidance in **C/C++, CUDA, Maths**, and more to help capture **GPU Pro
 - **Several Pedagogic Kernel** – exploring CUDA.  
 
 ## 🤳 Connect with me
-[<img align="left" alt="Substack" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/substack.svg" />][substack]
 [<img align="left" alt="LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
 
 [linkedin]: https://www.linkedin.com/in/florian-elio-mattana/
