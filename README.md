@@ -5,7 +5,8 @@ I'm an [Software Engineer](https://github.com/florianmattana/) passionate about 
 I provide guidance in **C/C++, CUDA, Maths**, and more to help capture **GPU Programming Concept**.  
 
 ## Projects
-- **Kernel Algo optimisation** – exploring CUDA bounderies.  
+- **Kernel Algo optimisation** – exploring CUDA bounderies.
+- **Iris Lite** - 
 
 ## 🤳 Connect with me
 [<img align="left" alt="LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
