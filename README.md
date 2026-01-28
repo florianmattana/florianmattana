@@ -1,5 +1,5 @@
 # Hi, I'm Florian! 👋  
-I'm an [Software Engineer](https://github.com/florianmattana/) passionate about GPU Programming.  
+I'm an C/C++ [Software Engineer](https://github.com/florianmattana/) passionate about GPU Programming.  
 
 ## Free Course Support
 I provide guidance in **C/C++, CUDA, Maths**, and more to help capture **GPU Programming Concept**.  
