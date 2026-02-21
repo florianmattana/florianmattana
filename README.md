@@ -1,18 +1,21 @@
-# Hi, I'm Florian! 👋  
-I'm an C/C++ [Software Engineer](https://github.com/florianmattana/) passionate about GPU Programming.  
+# Florian Mattana
 
-## Free Course Support
-I provide guidance in **C/C++, CUDA, Maths**, and more to help capture **GPU Programming Concept**.  
+GPU Kernel Engineer — C/C++ | CUDA | Nsight Compute
 
-## Projects
-- **Kernel Algo optimisation** – exploring CUDA bounderies.
-- **Iris Lite** - Lite production-minded CUDA prototype inspired by Skintelligent context: a multi-camera rig and a 3D digital twin pipeline.
+## What I do
+
+I implement and optimize GPU kernels in CUDA from scratch — from naive GEMM to Flash Attention — with systematic profiling at every step. Every kernel is benchmarked against production libraries like cuBLAS, with full Nsight Compute analysis.
+
+## Current project
+
+**[cuda-kernels](https://github.com/florianmattana/cuda-kernels)** — CUDA kernels from scratch: GEMM, reduction, prefix scan, softmax, Flash Attention. Each kernel profiled end-to-end with Nsight Compute.
 
 ## Articles
-- **Exploring PTX: A Close Look at Tile Optimization in CUDA** – [Linkedin Article 1](https://www.linkedin.com/pulse/exploring-ptx-close-look-tile-optimization-cuda-florian-elio-mattana-9jjfe)
-- **From Silicon to Thread Identity: How CUDA Threads Know Who They Are.** – [Linkedin Article 2](https://www.linkedin.com/pulse/from-silicon-thread-identity-how-cuda-threads-know-who-mattana-p8jje)
-  
-## 🤳 Connect with me
-[<img align="left" alt="LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
 
-[linkedin]: https://www.linkedin.com/in/florian-elio-mattana/
+- [Exploring PTX: A Close Look at Tile Optimization in CUDA](https://www.linkedin.com/pulse/exploring-ptx-close-look-tile-optimization-cuda-florian-elio-mattana-9jjfe)
+- [From Silicon to Thread Identity: How CUDA Threads Know Who They Are](https://www.linkedin.com/pulse/from-silicon-thread-identity-how-cuda-threads-know-who-mattana-p8jje)
+
+## Links
+
+- [Blog](https://florianmattana.com)
+- [LinkedIn](https://www.linkedin.com/in/florian-elio-mattana/)
