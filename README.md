@@ -1,6 +1,6 @@
 # Florian Mattana
 
-GPU Kernel Engineer — C/C++ | CUDA | Nsight Compute
+GPU Kernel Engineer C/C++ | CUDA | Nsight Compute
 
 ## What I do
 
