@@ -4,11 +4,11 @@ GPU Kernel Engineer C/C++ | CUDA | Nsight Compute
 
 ## What I do
 
-I implement and optimize GPU kernels in CUDA from scratch — from naive GEMM to Flash Attention — with systematic profiling at every step. Every kernel is benchmarked against production libraries like cuBLAS, with full Nsight Compute analysis.
+I implement and optimize GPU kernels in CUDA from scratch from naive GEMM to Flash Attention with systematic profiling at every step. Every kernel is benchmarked against production libraries like cuBLAS, with full Nsight Compute analysis.
 
 ## Current project
 
-**[cuda-kernels](https://github.com/florianmattana/cuda-kernels)** — CUDA kernels from scratch: GEMM, reduction, prefix scan, softmax, Flash Attention. Each kernel profiled end-to-end with Nsight Compute.
+**[cuda-kernels](https://github.com/florianmattana/cuda-kernels)** CUDA kernels from scratch: GEMM, reduction, prefix scan, softmax, Flash Attention. Each kernel profiled end-to-end with Nsight Compute.
 
 ## Articles
 
@@ -19,3 +19,4 @@ I implement and optimize GPU kernels in CUDA from scratch — from naive GEMM to
 
 - [Blog](https://florianmattana.com)
 - [LinkedIn](https://www.linkedin.com/in/florian-elio-mattana/)
+- [Twitter](https://x.com/florian_mattana)
