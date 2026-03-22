@@ -1,21 +1,24 @@
-# Florian Mattana
+GPU Kernel Engineer | C/C++ | CUDA | Nsight Compute
 
-GPU Kernel Engineer C/C++ | CUDA | Nsight Compute
+I write and optimize GPU kernels in CUDA C++ for inference workloads: GEMM, fused attention, quantization, softmax, reductions. Every kernel is profiled with Nsight Compute and benchmarked against cuBLAS. My best GEMM currently hits 58.8% of cuBLAS on an RTX 5070 Ti (Blackwell SM120).
 
-## What I do
+I contribute to open-source CUDA projects. Recent work includes fixing compilation and numerical precision bugs in an INT8 fused attention kernel (2 PRs merged, max error reduced from 1.69 to 1.37) and a narrowing-conversion fix in ThunderKittens (Stanford HazyResearch, PR #179).
 
-I implement and optimize GPU kernels in CUDA from scratch from naive GEMM to Flash Attention with systematic profiling at every step. Every kernel is benchmarked against production libraries like cuBLAS, with full Nsight Compute analysis.
+Currently building an FP4 fused attention kernel targeting consumer Blackwell GPUs using inline PTX.
 
-## Current project
+Projects
 
-**[cuda-kernels](https://github.com/florianmattana/cuda-kernels)** CUDA kernels from scratch: GEMM, reduction, prefix scan, softmax, Flash Attention. Each kernel profiled end-to-end with Nsight Compute.
+cuda-kernels: GEMM, reduction, prefix scan, softmax, Flash Attention. Each kernel built from scratch with full Nsight Compute profiling at every optimization step.
 
-## Articles
+Articles
 
-- [Exploring PTX: A Close Look at Tile Optimization in CUDA](https://www.linkedin.com/pulse/exploring-ptx-close-look-tile-optimization-cuda-florian-elio-mattana-9jjfe)
-- [From Silicon to Thread Identity: How CUDA Threads Know Who They Are](https://www.linkedin.com/pulse/from-silicon-thread-identity-how-cuda-threads-know-who-mattana-p8jje)
+Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs (SM120)
 
-## Links
+Exploring PTX: A Close Look at Tile Optimization in CUDA
+
+From Silicon to Thread Identity: How CUDA Threads Know Who They Are
+
+Links
 
 - [Blog](https://florianmattana.com)
 - [LinkedIn](https://www.linkedin.com/in/florian-elio-mattana/)
