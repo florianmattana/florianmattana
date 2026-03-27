@@ -1,35 +1,36 @@
 # Florian Mattana
 
-**GPU Performance Engineer | C/C++ | CUDA | Nsight Compute**
+**GPU Kernel Engineer | C/C++ | CUDA | Inline PTX | Nsight Compute**
 
-I write and optimize CUDA kernels for inference: GEMM, fused attention, quantization, softmax, reductions. Every kernel is profiled with Nsight Compute and benchmarked against cuBLAS.
+I write CUDA kernels at the PTX level for inference workloads — GEMM, fused attention, quantization, softmax, reductions. Every kernel is profiled with Nsight Compute and benchmarked against cuBLAS.
 
-Currently building an **FP4 fused attention kernel for consumer Blackwell GPUs (SM120)** using inline PTX — documented from hardware instructions to working code.
+Most open-source GPU libraries (FlashInfer, CUTLASS, cuda::ptx) target datacenter Blackwell (SM100). I work on **consumer Blackwell (SM120)** — different MMA instructions, different scaling constraints, almost no existing tooling. I write the PTX by hand because the wrappers don't exist yet.
 
 ---
 
-## Current Focus
+## Current Project
 
-**[FP4 Fused Attention for SM120](https://github.com/florianmattana/fp4-fused-attention-sm120)** — A fused FP4 attention kernel targeting consumer Blackwell GPUs that existing implementations (SageAttention3, FlashAttention-4) don't support. Warp-level `mma.sync` with block scaling, online softmax, FP4 E2M1 quantization. Full technical writeup [here](https://florianmattana.com/fp4-fused-attention-kernel-sm120).
+**[FP4 Fused Attention for SM120](https://github.com/florianmattana/fp4-fused-attention-sm120)** — Fused GEMM-softmax-GEMM attention kernel for consumer Blackwell GPUs using FP4 E2M1 quantization with UE8M0 block scaling. Inline PTX `mma.sync` (not `tcgen05.mma` — SM100 only). Scores matrix stays in registers between the two GEMMs to avoid spilling.
+
+Full technical writeup: [Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs](https://florianmattana.com/fp4-fused-attention-kernel-sm120)
 
 ---
 
 ## Open-Source Contributions
 
-| Project | Contribution | Status |
-|---|---|---|
-| [model-kernels](https://github.com/ParagEkbote/model-kernels) | Fixed 5 compilation + 2 precision bugs in INT8 fused attention. Max error 1.69 → 1.37 | **2 PRs merged** |
-| [ThunderKittens](https://github.com/HazyResearch/ThunderKittens/pull/179) | Fixed narrowing-conversion bug in base-type packing | PR open |
-| [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Benchmarking SM120 attention/GEMM/quantization kernels, studying JIT pipeline | Exploring |
+**[model-kernels](https://github.com/ParagEkbote/model-kernels)** — Fixed 5 compilation bugs + 2 precision bugs in INT8 fused attention. Max error reduced from 1.69 to 1.37. **2 PRs merged.**
+
+**[ThunderKittens](https://github.com/HazyResearch/ThunderKittens/pull/179)** (Stanford HazyResearch) — Fixed narrowing-conversion bug in base-type packing.
+
+**[FlashInfer](https://github.com/flashinfer-ai/flashinfer)** — Benchmarking SM120 attention/GEMM/quantization kernels, studying JIT pipeline. 
 
 ---
 
 ## Projects
 
-| Repo | Description |
-|---|---|
-| [fp4-fused-attention-sm120](https://github.com/florianmattana/fp4-fused-attention-sm120) | FP4 fused attention for consumer Blackwell. Inline PTX, block-scaled MMA, online softmax. |
-| [cuda-kernels](https://github.com/florianmattana/CUDA-Kernels) | GEMM, reduction, prefix scan, softmax, Flash Attention. Built from scratch with Nsight Compute profiling. |
+**[CUDA-Kernels](https://github.com/florianmattana/CUDA-Kernels)** — GEMM, reduction, prefix scan, softmax, Flash Attention built from scratch. Each kernel profiled with Nsight Compute. Best GEMM reaches 58.8% of cuBLAS on RTX 5070 Ti.
+
+**[GPU Profiling Guide](https://gist.github.com/florianmattana)** — 20,000+ word guide covering Nsight Systems and Nsight Compute end-to-end: napkin math, roofline analysis, compute/memory/latency-bound classification, bottleneck quantification, Source tab deep dive.
 
 ---
 
