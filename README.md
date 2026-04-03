@@ -83,12 +83,12 @@ Napkin math · Roofline · Bottleneck classification · Source tab deep dive.
 
 ### 📝 Articles
 
-> [**Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs**](https://florianmattana.com/fp4-fused-attention-kernel-sm120)
+> [**Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120)
 > From hardware instructions to working kernel — inline PTX, block scaling, register budget, MMA fragment mapping.
 
-> [**Exploring PTX: A Close Look at Tile Optimization in CUDA**](https://florianmattana.com/exploring-ptx-tile-optimization-cuda)
+> [**Exploring PTX: A Close Look at Tile Optimization in CUDA**](https://florianmattana.com/posts/exploring-ptx-tile-optimization-cuda)
 
-> [**From Silicon to Thread Identity: How CUDA Threads Know Who They Are**](https://florianmattana.com/from-silicon-to-thread-identity)
+> [**From Silicon to Thread Identity: How CUDA Threads Know Who They Are**](https://florianmattana.com/posts/from-silicon-to-thread-identity)
 
 ---
 
