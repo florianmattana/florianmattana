@@ -2,25 +2,16 @@
 
 # Florian Mattana
 
-**GPU Kernel Engineer**
+**GPU Performance Engineer**
 
 I write CUDA kernels at the PTX level for inference workloads on consumer Blackwell GPUs (SM120)
 where no wrappers, no libraries, and no tooling exist yet.
 
-`C/C++` `CUDA` `Inline PTX` `Nsight Compute` `Nsight Systems` `Tensor Cores` `FP4` `SM120`
+`C/C++` `CUDA` `Inline PTX` `Nsight Compute` `Nsight Systems` `Tensor Cores` `FP4` `SM120` `Attention`
 
 [Blog](https://florianmattana.com) · [LinkedIn](https://www.linkedin.com/in/florian-elio-mattana/) · [Twitter](https://x.com/florian_mattana)
 
 </div>
-
----
-
-### Why SM120
-
-Most GPU kernel work targets datacenter chips — B200, B100, H100.
-I target **consumer Blackwell** (RTX 5070 Ti, SM120): different MMA instructions, single-scale `scale_vec::1X`, FP4 packed in 8-bit containers, and zero `cuda::ptx` wrapper support.
-
-If it runs on SM120, I wrote the PTX by hand.
 
 ---
 
