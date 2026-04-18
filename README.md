@@ -4,7 +4,7 @@
 
 I write CUDA kernels at the PTX level for inference workloads on consumer Blackwell GPUs (SM120). I document what is not documented: MMA fragment layouts, FP4 container formats, scale factor distribution across lanes, and every SASS-level decision that affects performance.
 
-`C/C++` `CUDA` `Inline PTX` `Nsight Compute` `Nsight Systems` `Tensor Cores` `FP4` `SM120` `Attention`
+`C/C++` `CUDA` `Inline PTX` `SASS` `Nsight Compute` `Nsight Systems` `Tensor Cores` `FP4` `SM120` `Attention`
 
 [**Blog**](https://florianmattana.com) · [**LinkedIn**](https://linkedin.com/in/florianmattana) · [**Twitter**](https://x.com/florian_mattana)
 
@@ -16,7 +16,7 @@ Production GPU work across three companies: CPU→GPU pipeline migration at Geop
 
 ---
 
-## Current Project
+## Current Projects
 
 ### [FP4 Fused Attention Kernel for Consumer Blackwell (SM120)](https://github.com/florianmattana/fp4-fused-attention-sm120)
 
@@ -28,13 +28,17 @@ This is a pedagogical project. The goal is not to compete with SageAttention3 on
 
 [**Full technical writeup →**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/)
 
+### [SASS King](https://github.com/florianmattana/sass-king)
+
+Systematic reverse engineering of NVIDIA SASS across architectures. SASS is the machine code GPUs actually execute and is almost entirely undocumented by NVIDIA. The last public systematic work on SASS was Jia et al. (Citadel, 2018-2019) for Volta and Turing. Nothing comparable exists for Ampere, Hopper, or Blackwell. For SM120 specifically: zero.
+
+The project combines controlled source variation with pattern recognition on real kernels. Each kernel study pairs SASS reading (`cuobjdump` + gpuasm.com) with NCU profiling to correlate instructions with measured performance. Initial target: SM120 (direct hardware access). Planned extensions: SM80, SM89, SM90a, SM100a.
+
+[**Part 1 — Reading NVIDIA SASS from First Principles →**](https://florianmattana.com/posts/sass_king/)
+
 ---
 
 ## Projects
-
-### [CUDA-Kernels](https://github.com/florianmattana/CUDA-Kernels)
-
-From-scratch GPU kernel implementations with full NCU profiling breakdown for each one. GEMM, reduction, prefix scan, softmax, Flash Attention. Every kernel designed, profiled, and iterated at the PTX level on SM120.
 
 ### Tensara Leaderboard
 
@@ -64,6 +68,9 @@ Profiling and diagnosing real-world GPU kernels from other engineers. First audi
 
 ## Articles
 
+[**Reading NVIDIA SASS from First Principles**](https://florianmattana.com/posts/sass_king/)
+First milestone of the SASS King project. Four minimal kernels on SM120 establishing the vocabulary and reading method for NVIDIA SASS.
+
 [**Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/)
 From hardware instructions to working kernel: inline PTX, block scaling, register budget, MMA fragment mapping, NCU profiling.
 
@@ -73,4 +80,3 @@ Full walkthrough of the competitive problem, approach, and profiling.
 [**Exploring PTX: A Close Look at Tile Optimization in CUDA**](https://florianmattana.com/posts/exploring-ptx/)
 
 [**From Silicon to Thread Identity: How CUDA Threads Know Who They Are**](https://florianmattana.com/posts/from-silicon-to-thread-identity/)
-
