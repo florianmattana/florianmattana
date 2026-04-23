@@ -1,82 +1,84 @@
 # Florian Mattana
+**GPU Performance Engineer**
 
-**GPU Kernel Engineer**
+CUDA kernel with a focus on the full compilation pipeline — CUDA to PTX to SASS — and low-level GPU design.
 
-I write CUDA kernels at the PTX level for inference workloads on consumer Blackwell GPUs (SM120). I document what is not documented: MMA fragment layouts, FP4 container formats, scale factor distribution across lanes, and every SASS-level decision that affects performance.
-
-`C/C++` `CUDA` `Inline PTX` `SASS` `Nsight Compute` `Nsight Systems` `Tensor Cores` `FP4` `SM120` `Attention`
-
-[**Blog**](https://florianmattana.com) · [**LinkedIn**](https://linkedin.com/in/florianmattana) · [**Twitter**](https://x.com/florian_mattana)
+[Blog](https://florianmattana.com) · [LinkedIn](https://www.linkedin.com/in/florian-elio-mattana/) · [X](https://x.com/florian_mattana)
 
 ---
 
-## Background
+## SASS King
 
-Production GPU work across three companies: CPU→GPU pipeline migration at Geopost (T4), CUDA defect detection at Airbus (V100, 33x speedup, GPU utilization 9% → 89%), semiconductor sensor calibration at Melexis (A10G, cuBLAS, custom kernels across FP64 to FP8 precision formats).
+[github.com/florianmattana/sass-king](https://github.com/florianmattana/sass-king)
 
----
+SASS is the machine code NVIDIA GPUs actually execute. CUDA compiles to PTX (documented). PTX assembles to SASS (architecture-specific and undocumented). Everything that matters for performance happens at the SASS level: instruction scheduling, register allocation, scoreboard management, fusion decisions, unrolling strategies. None of it is visible at the source.
 
-## Current Projects
+The last systematic public work on SASS was Jia et al. (Citadel) in 2018–2019, covering Volta and Turing. Nothing comparable exists for Ampere, Hopper, or Blackwell. For SM120: zero. SASS King is an attempt to close that gap and lower the barrier for kernel developers who need to read SASS.
 
-### [FP4 Fused Attention Kernel for Consumer Blackwell (SM120)](https://github.com/florianmattana/fp4-fused-attention-sm120)
+**Methodology.** Controlled variation: start from the simplest kernel, change one thing in the source, recompile, diff the SASS, document the observation. Paired with NCU profiling so every instruction-level claim is grounded in a measured outcome. Every statement is tagged `[OBS]` observed, `[INF]` inferred, or `[HYP]` hypothesis.
 
-Fused GEMM → softmax → GEMM attention kernel using FP4 E2M1 quantization with UE8M0 block scaling. Written entirely in inline PTX using `mma.sync.aligned.m16n8k32`. The score matrix stays in registers between both GEMMs.
+**Target architectures:** SM80 (A100), SM89 (RTX 4090), SM90a (H100), SM100a (B200), SM120 (RTX 5070 Ti / 5090). Work starts on SM120 because that is where I have direct hardware access. Community dumps and contributions cover the rest.
 
-The kernel is functionally complete: online softmax, K tile loop, multi-head, arbitrary HEAD_DIM. Correctness validated at cosine 1.0000 on all configurations. The MMA fragment layout, container format, and scale distribution for SM120 were reverse-engineered empirically since none of it is documented in the PTX ISA.
+**Public status.** Phase 1 in progress: 6 kernel studies on SM120 (baseline vector add, FMA fusion, scoreboard grouping, unroll cascade, fixed-trip loops, shared memory scalar). Next in the roadmap: vectorized loads, warp reductions, division slowpath, register spill, first tensor core (`QMMA`). Later phases: classical algorithms (SGEMM, reductions, softmax, LayerNorm), annotated audits of real libraries (flash-attn, CUTLASS, FlashInfer, transformer_engine, llama.cpp), and a per-instruction reference across architectures.
 
-This is a pedagogical project. The goal is not to compete with SageAttention3 on throughput but to make every step of the FP4 attention pipeline visible at the instruction level. The full technical writeup (21 sections, 9500+ words) documents every bug, every wrong assumption, and every hardware surprise.
+**Contributions welcome.** SASS dumps from SM80 / SM89 / SM90a / SM100a move the project forward directly. The [CONTRIBUTING guide](https://github.com/florianmattana/sass-king/blob/main/CONTRIBUTING.md) lists the kernels to compile and the exact flags.
 
-[**Full technical writeup →**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/)
-
-### [SASS King](https://github.com/florianmattana/sass-king)
-
-Systematic reverse engineering of NVIDIA SASS across architectures. SASS is the machine code GPUs actually execute and is almost entirely undocumented by NVIDIA. The last public systematic work on SASS was Jia et al. (Citadel, 2018-2019) for Volta and Turing. Nothing comparable exists for Ampere, Hopper, or Blackwell. For SM120 specifically: zero.
-
-The project combines controlled source variation with pattern recognition on real kernels. Each kernel study pairs SASS reading (`cuobjdump` + gpuasm.com) with NCU profiling to correlate instructions with measured performance. Initial target: SM120 (direct hardware access). Planned extensions: SM80, SM89, SM90a, SM100a.
-
-[**Part 1 — Reading NVIDIA SASS from First Principles →**](https://florianmattana.com/posts/sass_king/)
+[Part 1 — Reading NVIDIA SASS from First Principles →](https://florianmattana.com/posts/sass_king/)
 
 ---
 
-## Projects
+## FP4 Fused Attention for SM120
 
-### Tensara Leaderboard
+[github.com/florianmattana/fp4-fused-attention-sm120](https://github.com/florianmattana/fp4-fused-attention-sm120)
 
-First place on the MXFP4 quantization problem. Beat a Triton kernel with a hand-written CUDA solution on B200.
+Fused GEMM → softmax → GEMM attention kernel for consumer Blackwell (SM120), written in inline PTX with warp-level `mma.sync`, FP4 E2M1 quantization, and UE8M0 block scaling. Work in progress, with validated MMA tests.
 
-[**Full writeup →**](https://florianmattana.com/posts/mxfp4_article/)
+**Why it exists.** Existing FP4 attention implementations (FlashAttention-4, SageAttention3) target SM100 datacenter hardware. SM120 consumer GPUs are left on FP16 / FP8 fallbacks even though the Tensor Cores can run FP4.
 
-### NCU Kernel Audits
+**Reverse-engineered on SM120** (none of this is in the PTX ISA documentation):
 
-Profiling and diagnosing real-world GPU kernels from other engineers. First audit: warp-specialized persistent MXFP8 GEMM (2-CTA cluster, tcgen05.mma, SM100). Diagnosed latency-bound bottleneck, 93% No Eligible stall, false-positive divergence from warp specialization.
+* FP4 E2M1 via `kind::mxf8f6f4` stores each 4-bit value in an 8-bit container (bits 5–2, with padding). Throughput is half of SM100's `kind::mxf4nvf4`.
+* `scale_vec::2X` is not available on SM120. Block scaling is limited to `scale_vec::1X` (one UE8M0 scale per 32 elements).
+* The working MMA is `mma.sync.aligned.kind::mxf8f6f4.block_scale.scale_vec::1X.m16n8k32.row.col.f32.e2m1.e2m1.f32.ue8m0`.
 
-### [GPU Profiling Guide](https://gist.github.com/florianmattana)
+[Full technical writeup →](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/)
 
-20,000+ words on Nsight Systems and Nsight Compute. Napkin math, roofline, bottleneck classification, source tab deep dive.
+---
+
+## Tensara MXFP4 · First Place
+
+First place on the Tensara MXFP4 quantization problem. Hand-written CUDA kernel on B200, 72.48 μs final across all test sizes, ahead of a Triton baseline at 75.12 μs. The writeup walks through the spec work (OCP standard, floor vs ceil scale, round-to-nearest-even with `>=` vs `>` per midpoint), the naive kernel, and the warp-level rewrite that made memory access coalesced.
+
+[Writeup →](https://florianmattana.com/posts/mxfp4_article/)
+
+---
+
+## NCU Kernel Audits
+
+Profiling and diagnosing real-world GPU kernels from other engineers. First audit: warp-specialized persistent MXFP8 GEMM (2-CTA cluster, `tcgen05.mma`, SM100). Diagnosed latency-bound bottleneck, 93% No Eligible stall, false-positive divergence from warp specialization.
 
 ---
 
 ## Open-Source Contributions
 
-| Project | What I Did |
-|---|---|
-| [**model-kernels**](https://github.com/ParagEkbote/model-kernels) | INT8 fused attention kernel for diffusion transformers. 5 compilation fixes, 2 precision fixes (max error 1.69 → 1.37), global max scale fix. Found and fixed a segfault caused by a schema contract violation in timestep_scales validation. Benchmarked on Sana 1600M (1024px), diagnosed performance gap (warp-level parallelism in softmax loop) and accuracy issues on head_dim=32. |
-| [**ThunderKittens**](https://github.com/HazyResearch/ThunderKittens) · Stanford HazyResearch | Narrowing-conversion fix in base-type packing (PR #179) |
-| [**CCCL**](https://github.com/NVIDIA/cccl/issues/8146) · NVIDIA | Issue #8146: requesting cuda::ptx wrappers for warp-level mma.sync on SM120 |
+| Project | Contribution | Status |
+| --- | --- | --- |
+| [model-kernels](https://github.com/ParagEkbote/model-kernels) | INT8 fused attention for diffusion transformers. 5 compilation + 2 precision fixes (max error 1.69 → 1.37), global max scale fix, segfault fix on a schema contract violation in `timestep_scales`. Benchmarked on Sana 1600M. | 2 PRs merged |
+| [ThunderKittens](https://github.com/HazyResearch/ThunderKittens/pull/179) · Stanford HazyResearch | Narrowing-conversion fix in base-type packing | PR #179 |
+| [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Benchmarking SM120 attention / GEMM / quantization kernels, studying the JIT pipeline | Exploring |
 
 ---
 
 ## Articles
 
-[**Reading NVIDIA SASS from First Principles**](https://florianmattana.com/posts/sass_king/)
-First milestone of the SASS King project. Four minimal kernels on SM120 establishing the vocabulary and reading method for NVIDIA SASS.
+* [**SASS King, Part 1: Reading NVIDIA SASS from First Principles**](https://florianmattana.com/posts/sass_king/) · April 2026 · 19 min
+* [**I Wrote an MXFP4 Quantization Kernel and Ranked #1 on Tensara**](https://florianmattana.com/posts/mxfp4_article/) · April 2026 · 27 min
+* [**Building an FP4 Fused Attention Kernel on Consumer Blackwell (SM120)**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/) · March 2026 · 39 min
+* [**From Silicon to Thread Identity: How CUDA Threads Know Who They Are**](https://florianmattana.com/posts/from-silicon-to-thread-identity/) · February 2026 · 8 min
+* [**Exploring PTX: A Close Look at Tile Optimization in CUDA**](https://florianmattana.com/posts/exploring-ptx-tile-optimization/) · January 2026 · 10 min
 
-[**Building an FP4 Fused Attention Kernel for Consumer Blackwell GPUs**](https://florianmattana.com/posts/fp4-fused-attention-kernel-sm120/)
-From hardware instructions to working kernel: inline PTX, block scaling, register budget, MMA fragment mapping, NCU profiling.
+---
 
-[**Tensara MXFP4: How I Beat a Triton Kernel with Hand-Written CUDA**](https://florianmattana.com/posts/mxfp4_article/)
-Full walkthrough of the competitive problem, approach, and profiling.
+## Background
 
-[**Exploring PTX: A Close Look at Tile Optimization in CUDA**](https://florianmattana.com/posts/exploring-ptx/)
-
-[**From Silicon to Thread Identity: How CUDA Threads Know Who They Are**](https://florianmattana.com/posts/from-silicon-to-thread-identity/)
+Previously: GPU software engineer at Melexis (A10G) on calibration pipelines across FP64 → FP8. Before that, Airbus (V100) on CUDA defect detection, and DPD Group (T4) migrating a parcel matching pipeline from CPU to GPU.
