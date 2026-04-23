@@ -55,7 +55,7 @@ First place on the Tensara MXFP4 quantization problem. Hand-written CUDA kernel 
 
 ## NCU Kernel Audits
 
-Profiling and diagnosing real-world GPU kernels from other engineers. First audit: warp-specialized persistent MXFP8 GEMM (2-CTA cluster, `tcgen05.mma`, SM100). Diagnosed latency-bound bottleneck, 93% No Eligible stall, false-positive divergence from warp specialization.
+Profiling and diagnosing real-world GPU kernels from other engineers. Example :  warp-specialized persistent MXFP8 GEMM (2-CTA cluster, `tcgen05.mma`, SM100). Diagnosed latency-bound bottleneck, 93% No Eligible stall, false-positive divergence from warp specialization.
 
 ---
 
